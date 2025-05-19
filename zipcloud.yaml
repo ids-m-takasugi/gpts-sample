@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: ZIP Cloud API Wrapper
+  description: 郵便番号から住所を検索するためのAPI
+  version: 1.0.0
+servers:
+  - url: https://zipcloud.ibsnet.co.jp/api
+paths:
+  /search:
+    get:
+      summary: 郵便番号から住所を検索
+      parameters:
+        - name: zipcode
+          in: query
+          required: true
+          description: 検索対象の7桁の郵便番号（ハイフンなし）
+          schema:
+            type: string
+            pattern: '^\d{7}$'
+      responses:
+        '200':
+          description: 成功したレスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        zipcode:
+                          type: string
+                        address1:
+                          type: string
+                        address2:
+                          type: string
+                        address3:
+                          type: string
+                  message:
+                    type: string
+                  status:
+                    type: number
